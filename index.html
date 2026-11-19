@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChemRoom · Química con Python</title>
+  <meta name="description" content="ChemRoom: herramientas interactivas y código Python abierto para aprender química, desde nivel básico hasta universitario.">
+  <meta name="theme-color" content="#0a0e13">
+
+  <!-- EDITAR: vista previa al compartir el enlace -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ChemRoom · Herramientas de y para la Química con Python">
+  <meta property="og:description" content="Herramientas interactivas y código Python abierto para aprender química.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ==================== NAVEGACIÓN ==================== -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#inicio" aria-label="ChemRoom, inicio">
+        <span class="brand-tile" aria-hidden="true"><small>24</small>Cr</span>
+        <span class="brand-name">ChemRoom</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="#niveles">Niveles</a>
+        <a href="#herramientas">Herramientas</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <!-- EDITAR: cambia TU-USUARIO por tu usuario de GitHub -->
+        <a class="nav-cta" href="https://github.com/RoReyesPrado/chemroom" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==================== INICIO ==================== -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> HERRAMIENTAS DE Y PARA ENTUSIASTAS DE QUÍMICA CON PYTHON</p>
+          <!-- EDITAR: frase principal -->
+          <h1 id="hero-title">Aprende química mediante codigo Python.</em></h1>
+          <p class="hero-lead">
+            Calculadoras, simulaciones y código Python abierto para estudiar química,
+            desde nivel básico hasta universitario.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#herramientas">Explorar herramientas <span aria-hidden="true">↓</span></a>
+            <a class="btn btn-ghost" href="https://github.com/TU-USUARIO/chemroom" target="_blank" rel="noopener noreferrer">Ver en GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <!-- Ejemplo ilustrativo de código (EDITAR cuando tengas tu primer .py) -->
+        <figure class="code-card" aria-label="Ejemplo de código Python">
+          <div class="code-bar">
+            <span>masa_molar.py</span>
+            <span>Python 3</span>
+          </div>
+<pre><code><span class="c"># masas atómicas (g/mol)</span>
+masas = {<span class="s">"H"</span>: <span class="n">1.008</span>, <span class="s">"O"</span>: <span class="n">15.999</span>}
+
+<span class="k">def</span> <span class="f">masa_molar</span>(composicion):
+    <span class="k">return</span> <span class="f">sum</span>(masas[el] * n
+               <span class="k">for</span> el, n <span class="k">in</span> composicion.items())
+
+<span class="p">&gt;&gt;&gt;</span> masa_molar({<span class="s">"H"</span>: <span class="n">2</span>, <span class="s">"O"</span>: <span class="n">1</span>})
+<span class="o">18.015</span></code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ==================== NIVELES ==================== -->
+    <section class="section" id="niveles" aria-labelledby="niveles-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 01 · RUTA DE APRENDIZAJE</p>
+          <h2 id="niveles-title">Elige tu <em>nivel</em></h2>
+        </div>
+
+        <!-- EDITAR: descripción de cada nivel. Al hacer clic, filtra las herramientas. -->
+        <div class="level-grid">
+          <a class="level-card lv-basico" href="#herramientas" data-filter="basico">
+            <span class="level-tag">NIVEL 1</span>
+            <h3>Básico</h3>
+            <p>Conceptos y cálculos esenciales: mol, masa molar, pH y gases ideales.</p>
+            <span class="level-go">Ver herramientas →</span>
+          </a>
+          <a class="level-card lv-intermedio" href="#herramientas" data-filter="intermedio">
+            <span class="level-tag">NIVEL 2</span>
+            <h3>Intermedio</h3>
+            <p>Equilibrio químico, cinética y titulaciones con gráficos.</p>
+            <span class="level-go">Ver herramientas →</span>
+          </a>
+          <a class="level-card lv-universitario" href="#herramientas" data-filter="universitario">
+            <span class="level-tag">NIVEL 3</span>
+            <h3>Universitario</h3>
+            <p>Termodinámica, química cuántica y espectroscopía con métodos computacionales.</p>
+            <span class="level-go">Ver herramientas →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HERRAMIENTAS ====================
+         Cada herramienta es un bloque <article class="tool-card">.
+         Para agregar una: copia un bloque y cambia
+           data-level   → basico | intermedio | universitario
+           el número, el símbolo, el nombre y la descripción
+           el nombre del archivo .py
+         Cuando la herramienta esté lista, reemplaza el <span class="tool-status">
+         por: <a class="tool-link" href="tools/masa_molar.html">Abrir →</a>
+    -->
+    <section class="section section-alt" id="herramientas" aria-labelledby="herramientas-title">
+      <div class="container">
+        <div class="section-head section-head-row">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 02 · TABLA DE HERRAMIENTAS</p>
+            <h2 id="herramientas-title">Herramientas <em>interactivas</em></h2>
+          </div>
+          <p class="tool-count" id="tool-count" aria-live="polite">9 herramientas</p>
+        </div>
+
+        <div class="chips" role="group" aria-label="Filtrar por nivel">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">Todas</button>
+          <button class="chip" type="button" data-filter="basico" aria-pressed="false">Básico</button>
+          <button class="chip" type="button" data-filter="intermedio" aria-pressed="false">Intermedio</button>
+          <button class="chip" type="button" data-filter="universitario" aria-pressed="false">Universitario</button>
+        </div>
+
+        <div class="tool-grid">
+
+          <!-- BÁSICO -->
+          <article class="tool-card lv-basico" data-level="basico">
+            <div class="tile-top"><span class="tile-num">01</span><span class="level-badge">Básico</span></div>
+            <div class="tile-symbol">Mm</div>
+            <h3>Masa molar</h3>
+            <p>Calcula la masa molar de cualquier compuesto a partir de su fórmula.</p>
+            <div class="tile-foot"><code>masa_molar.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-basico" data-level="basico">
+            <div class="tile-top"><span class="tile-num">02</span><span class="level-badge">Básico</span></div>
+            <div class="tile-symbol">pH</div>
+            <h3>pH y pOH</h3>
+            <p>Relaciona concentración de H⁺, pH, pOH y carácter ácido o básico.</p>
+            <div class="tile-foot"><code>ph_poh.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-basico" data-level="basico">
+            <div class="tile-top"><span class="tile-num">03</span><span class="level-badge">Básico</span></div>
+            <div class="tile-symbol">PV</div>
+            <h3>Gases ideales</h3>
+            <p>Resuelve PV = nRT y visualiza cómo cambian presión, volumen y temperatura.</p>
+            <div class="tile-foot"><code>gases_ideales.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <!-- INTERMEDIO -->
+          <article class="tool-card lv-intermedio" data-level="intermedio">
+            <div class="tile-top"><span class="tile-num">04</span><span class="level-badge">Intermedio</span></div>
+            <div class="tile-symbol">Kc</div>
+            <h3>Equilibrio químico</h3>
+            <p>Calcula concentraciones en equilibrio y el efecto de perturbaciones.</p>
+            <div class="tile-foot"><code>equilibrio.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-intermedio" data-level="intermedio">
+            <div class="tile-top"><span class="tile-num">05</span><span class="level-badge">Intermedio</span></div>
+            <div class="tile-symbol">k</div>
+            <h3>Cinética química</h3>
+            <p>Órdenes de reacción, constantes de velocidad y gráficos de concentración.</p>
+            <div class="tile-foot"><code>cinetica.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-intermedio" data-level="intermedio">
+            <div class="tile-top"><span class="tile-num">06</span><span class="level-badge">Intermedio</span></div>
+            <div class="tile-symbol">Ti</div>
+            <h3>Curvas de titulación</h3>
+            <p>Simula titulaciones ácido-base y encuentra el punto de equivalencia.</p>
+            <div class="tile-foot"><code>titulaciones.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <!-- UNIVERSITARIO -->
+          <article class="tool-card lv-universitario" data-level="universitario">
+            <div class="tile-top"><span class="tile-num">07</span><span class="level-badge">Universitario</span></div>
+            <div class="tile-symbol">ΔG</div>
+            <h3>Termodinámica</h3>
+            <p>Energía libre, entalpía y entropía para predecir la espontaneidad.</p>
+            <div class="tile-foot"><code>termodinamica.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-universitario" data-level="universitario">
+            <div class="tile-top"><span class="tile-num">08</span><span class="level-badge">Universitario</span></div>
+            <div class="tile-symbol">Ψ</div>
+            <h3>Partícula en una caja</h3>
+            <p>Niveles de energía y funciones de onda de un sistema cuántico simple.</p>
+            <div class="tile-foot"><code>particula_en_caja.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+          <article class="tool-card lv-universitario" data-level="universitario">
+            <div class="tile-top"><span class="tile-num">09</span><span class="level-badge">Universitario</span></div>
+            <div class="tile-symbol">λ</div>
+            <h3>Espectroscopía UV-Vis</h3>
+            <p>Ley de Beer-Lambert, curvas de calibración y análisis de espectros.</p>
+            <div class="tile-foot"><code>uv_vis.py</code><span class="tool-status">Próximamente</span></div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CÓMO FUNCIONA ==================== -->
+    <section class="section" id="como-funciona" aria-labelledby="como-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 03 · METODOLOGÍA</p>
+          <h2 id="como-title">Tres pasos para <em>aprender haciendo</em></h2>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <span class="step-num">01</span>
+            <h3>Lee la teoría</h3>
+            <p>Cada herramienta explica el concepto y las fórmulas antes de calcular.</p>
+          </article>
+          <article class="step">
+            <span class="step-num">02</span>
+            <h3>Ejecuta el código</h3>
+            <p>Python abierto y comentado. Cópialo o ejecútalo directamente desde el repositorio.</p>
+          </article>
+          <article class="step">
+            <span class="step-num">03</span>
+            <h3>Modifica y experimenta</h3>
+            <p>Cambia los parámetros, observa los resultados y entiende qué ocurre.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="brand-name">ChemRoom</span>
+      <p>© 2026 ChemRoom · Proyecto educativo de código abierto</p>
+      <a href="https://github.com/TU-USUARIO/chemroom" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
 
