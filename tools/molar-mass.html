@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de masa molar | ChemRoom</title>
+
+<style>
+:root {
+    --bg: #0b1220;
+    --panel: #121e30;
+    --border: #26364b;
+    --text: #e8f0fa;
+    --muted: #9aabc0;
+    --accent: #36d6c5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 35px 18px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+main {
+    max-width: 850px;
+    margin: auto;
+}
+
+a { color: var(--accent); text-decoration: none; }
+
+header { margin-bottom: 35px; }
+
+h1 { font-size: 2rem; margin-bottom: 10px; }
+
+p { color: var(--muted); line-height: 1.6; }
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: #0b1220;
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 13px 20px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #06201e;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.examples button {
+    background: #203248;
+    color: var(--text);
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+#status { margin-top: 15px; font-size: 0.9rem; }
+
+.result {
+    display: none;
+    margin-top: 20px;
+}
+
+.total {
+    font-size: 2rem;
+    color: var(--accent);
+    font-weight: bold;
+    margin: 10px 0 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+th { color: var(--muted); font-size: 0.9rem; }
+
+td:last-child, th:last-child { text-align: right; }
+
+.error { color: #ff8c8c; }
+
+footer {
+    margin-top: 35px;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+    <a href="../index.html">← Volver a ChemRoom</a>
+    <h1>Calculadora de masa molar</h1>
+    <p>
+        Escribe una fórmula química y descubre su masa molar,
+        la cantidad de cada elemento y su contribución al resultado.
+    </p>
+</header>
+
+<section class="panel">
+    <label for="formula">Fórmula química</label>
+
+    <input
+        id="formula"
+        type="text"
+        placeholder="Ejemplo: H2SO4"
+        autocomplete="off"
+    >
+
+    <button id="calculate">Calcular masa molar</button>
+
+    <div class="examples">
+        <button data-formula="H2O">H₂O</button>
+        <button data-formula="NaCl">NaCl</button>
+        <button data-formula="H2SO4">H₂SO₄</button>
+        <button data-formula="Ca(OH)2">Ca(OH)₂</button>
+        <button data-formula="C6H12O6">C₆H₁₂O₆</button>
+        <button data-formula="CHOOH">CHOOH</button>
+    </div>
+
+    <p id="status">Cargando calculadora...</p>
+</section>
+
+<section class="panel result" id="result">
+    <h2>Resultado</h2>
+    <p>Fórmula analizada: <strong id="normalized"></strong></p>
+
+    <div class="total" id="total"></div>
+
+    <h3>Desglose por elemento</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Elemento</th>
+                <th>Cantidad</th>
+                <th>Masa atómica (g/mol)</th>
+                <th>Contribución (g/mol)</th>
+            </tr>
+        </thead>
+        <tbody id="breakdown"></tbody>
+    </table>
+</section>
+
+<footer>
+    ChemRoom · Química interactiva y herramientas de cálculo
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+
+<script>
+let pyodide = null;
+
+const status = document.getElementById("status");
+const calculateButton = document.getElementById("calculate");
+
+async function initialize() {
+    try {
+        status.textContent = "Preparando el entorno de Python...";
+
+        pyodide = await loadPyodide();
+
+        status.textContent = "Cargando calculadora de química...";
+
+        const response = await fetch("../python/molar_mass.py");
+
+        if (!response.ok) {
+            throw new Error("No se encontró python/molar_mass.py");
+        }
+
+        const pythonCode = await response.text();
+
+        pyodide.runPython(pythonCode);
+
+        status.textContent = "Calculadora lista.";
+        calculateButton.disabled = false;
+
+    } catch (error) {
+        status.textContent = "Error al cargar: " + error.message;
+        status.className = "error";
+    }
+}
+
+function showResult(data) {
+    document.getElementById("result").style.display = "block";
+    document.getElementById("normalized").textContent = data.formula;
+
+    document.getElementById("total").textContent =
+        Number(data.total).toFixed(2) + " g/mol";
+
+    const tbody = document.getElementById("breakdown");
+    tbody.replaceChildren();
+
+    for (const item of data.breakdown) {
+        const row = document.createElement("tr");
+
+        const values = [
+            item.element,
+            item.count,
+            Number(item.atomic_mass).toFixed(2),
+            Number(item.contribution).toFixed(2)
+        ];
+
+        for (const value of values) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        }
+
+        tbody.appendChild(row);
+    }
+}
+
+function calculate() {
+    const formula = document.getElementById("formula").value.trim();
+
+    if (!formula) {
+        status.textContent = "Escribe una fórmula química.";
+        status.className = "error";
+        return;
+    }
+
+    try {
+        const calculatePython = pyodide.globals.get("calculate_json");
+        const response = calculatePython(formula);
+        const data = JSON.parse(response);
+
+        if (!data.success) {
+            throw new Error(data.error);
+        }
+
+        showResult(data);
+        status.textContent = "Cálculo realizado correctamente.";
+        status.className = "";
+
+    } catch (error) {
+        document.getElementById("result").style.display = "none";
+        status.textContent = "No se pudo calcular: " + error.message;
+        status.className = "error";
+    }
+}
+
+calculateButton.disabled = true;
+calculateButton.addEventListener("click", calculate);
+
+document.getElementById("formula").addEventListener("keydown", event => {
+    if (event.key === "Enter") calculate();
+});
+
+document.querySelectorAll("[data-formula]").forEach(button => {
+    button.addEventListener("click", () => {
+        document.getElementById("formula").value = button.dataset.formula;
+        calculate();
+    });
+});
+
+initialize();
+</script>
+
+</body>
+</html>
